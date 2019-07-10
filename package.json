@@ -37,6 +37,7 @@
     "@babel/polyfill": "^7.4.4",
     "@babel/runtime": "^7.4.5",
     "body-parser": "^1.19.0",
-    "node": "^12.1.0"
+    "node": "^12.1.0",
+    "phaser": "^3.18.1"
   }
 }

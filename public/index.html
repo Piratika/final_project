@@ -5,99 +5,19 @@
     <meta charset="UTF-8">
     <title>project</title>
     <!-- <link rel='stylesheet' href='main.css'> -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+        crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="../dist/bundle.js"></script>
+    <script src="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/js/okta-sign-in.min.js" type="text/javascript"></script>
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-sign-in.min.css" type="text/css" rel="stylesheet" />
+    <link href="https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.16.0/css/okta-theme.css" type="text/css" rel="stylesheet"
+    />
 </head>
 
 <body>
-    <div id="wrapper">
-        <header>
-            <a href="/">
-                <img id="logo_img" src="images/logo.png" alt="rabble_logo">
-            </a>
-            <form name="search" action="#" method="get">
-                <input type="text" name="search" placeholder="search"><button type="submit">GO</button>
-            </form>
-
-            <nav>
-                <ul class="menu top-menu">
-                    <li>
-                        <input id="nav_button_0" type="radio" name="nav_button" value="0" checked>
-                        <label for="nav_button_0">HOME</label>
-                    </li><li>
-                        <input id="nav_button_1" type="radio" name="nav_button" value="game">
-                        <label for="nav_button_1">GAMES</label>
-                    </li><li>
-                        <input id="nav_button_2" type="radio" name="nav_button" value="book">
-                        <label for="nav_button_2">BOOKS</label>
-                    </li><li>
-                        <input id="nav_button_3" type="radio" name="nav_button" value="music">
-                        <label for="nav_button_3">MUSIC</label>
-                    </li><li>
-                        <input id="nav_button_4" type="radio" name="nav_button" value="video">
-                        <label for="nav_button_4">VIDEO</label>
-                    </li><li>
-                        <input id="nav_button_5" type="radio" name="nav_button" value="project">
-                        <label for="nav_button_5">PROJECTS</label>
-                    </li>
-                </ul>
-            </nav>
-
-            <div id="heading">
-                <h1>HOME</h1>
-                <button class="hidden" id="button_add"></button>
-                <label title="Add something" for="button_add">+</label>
-                <label class="sort" for="sort_by">Sort by</label>
-                <select class="sort" id="sort_by">
-                    <option value="date">date</option>
-                    <option value="title">title</option>
-                    <option value="creator">creator</option>
-                </select>
-                <input class="sort" id="sort_direction_0" type="radio" name="sort_direction" value="0" checked><label class="sort" for="sort_direction_0"><i class="fas fa-long-arrow-alt-up"></i>
-                </label><input class="sort" id="sort_direction_1" type="radio" name="sort_direction" value="1"><label class="sort" for="sort_direction_1"><i class="fas fa-long-arrow-alt-down"></i></label>
-                <label class="sort" for="sort_by_creator">Creator</label>
-                <select class="sort" id="sort_by_creator">
-                    <option value="0">---</option>
-                </select>
-            </div>
-        </header>
-
-        <aside></aside>
-
-
-        <section>
-            <div class="content">
-            </div>
-        </section>
-        <footer>blah blah</footer>
-    </div>
-
-    <div id="add_content">
-        <form id="add_content_form">
-            <label for="new_content_type">Type of the content</label>
-            <select id="new_content_type">
-                <option value="game">game</option>
-                <option value="book">book</option>
-                <option value="music">music</option>
-                <option value="video">video</option>
-                <option value="project">project</option>
-            </select>
-            <label for="new_content_title">Title</label>
-            <input id="new_content_title" type="text" required>
-            <label for="new_content_image">Image</label>
-            <input id="new_content_image" type="url">
-            <label for="new_content_creator">Creator or artist</label>
-            <input id="new_content_creator" type="text">
-            <label for="new_content_description">Description</label>
-            <textarea id="new_content_description"></textarea>
-            <label for="new_content_link">Download link</label>
-            <input id="new_content_link" type="url" required>
-            <input type="submit">
-        </form>
-    </div>
-
-
+    <div id="messageBox" class="jumbotron"></div>
+    <div id="okta-login-container"></div>
+    <script src="../dist/bundle.js"></script>
 </body>
 
 </html>
