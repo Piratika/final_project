@@ -6,7 +6,7 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
-var isItRain = false;
+var isItRain = true;
 var space;
 
 var Game;
@@ -35,55 +35,60 @@ function preload() {
     this.load.image('star', 'images/star.png');
     this.load.image('bomb', 'images/bomb.png');
     this.load.image('rain', 'images/rain.png');
+    this.load.image('puddle', 'images/puddle.png');
     this.load.spritesheet('hero1', 'images/girl1.png', { frameWidth: 113.77, frameHeight: 113.83 });
     this.load.spritesheet('hero2', 'images/girl2.png', { frameWidth: 113.77, frameHeight: 113.83 });
     this.load.spritesheet('blocks', 'images/tile2.png', { frameWidth: 70, frameHeight: 69.8 });
+    this.load.spritesheet('platform', 'images/platform.png', { frameWidth: 70, frameHeight: 40 });
 }
 
 function create() {
+
+    //  Set the camera and physics bounds to be the size of 4x4 bg images
+    this.cameras.main.setBounds(0, 0, 1920, 1200).setName('main');
+    this.physics.world.setBounds(0, 0, 1920, 1200);
+
     //  A simple background for our game
-    var bg = this.add.image(this.game.config.width / 2, this.game.config.height / 2, 'sky');
-    bg.width *= (this.game.config.height / bg.height);
+    this.add.image(1920 * 3 / 2 - 110, 1200 / 2, 'sky');
+    this.add.image(1920 / 2, 1200 / 2, 'sky');
+    this.add.image(-1920 / 2 + 110, 1200 / 2, 'sky');
+
     //bg.scale.y = bg.scale.x;
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
 
     //  Here we create the ground.
-    //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-    platforms.create(400, this.game.config.height - 32, 'ground').setScale(2).refreshBody();
-    platforms.create(1200, this.game.config.height - 32, 'ground').setScale(2).refreshBody();
-    platforms.create(2000, this.game.config.height - 32, 'ground').setScale(2).refreshBody();
 
     //  Now let's create some ledges
-    function addPlatform(x, y, length, block) {
+    function addPlatform(x, y, length) {
         for (let i = 0; i < length; i++) {
-            let numb = 80;
+            let numb = 3;
             if (length != 1) {
-                numb = (i === 0 ? block + 12 : (i === length - 1 ? block - 12 : block));
+                numb = (i === 0 ? 2 : (i === length - 1 ? 0 : 1));
             }
-            platforms.create(i * 70 + x, y, 'blocks', numb);
+            platforms.create(i * 70 + x, y, 'platform', numb);
         }
     }
 
-    addPlatform(720, 250, 4, 56);
-    addPlatform(600, 400, 4, 56);
-    addPlatform(50, 250, 4, 56);
-    addPlatform(300, 600, 3, 56);
-    addPlatform(500, 500, 1, 56);
-    addPlatform(1200, 400, 5, 56);
-    addPlatform(1500, 250, 3, 56);
-
-    for (let i = 0; i < 1920 / 70; i++) {
-        platforms.create(i * 70, this.game.config.height - 32, 'blocks', 103);
+    for (let i = 0; i < 25; i++) {
+        let randomX = 70 * Phaser.Math.Between(0, 1800 / 70) + 35;
+        let randomY = 160 * Phaser.Math.Between(0, 5) + 190;
+        let randomAmount = Phaser.Math.Between(1, 4);
+        addPlatform(randomX, randomY, randomAmount);
+        if (isItRain && Phaser.Math.Between(0, 4) == 0) {
+            this.add.image(randomX + 70 * Phaser.Math.Between(0, randomAmount - 1), randomY - 14, 'puddle')
+        }
     }
 
-
+    for (let i = 0; i < 1920 / 70; i++) {
+        platforms.create(i * 70 + 35, 1200 - 32, 'blocks', 103);
+    }
 
     // The player and its settings
-    player = this.physics.add.sprite(100, 450, 'hero1');
+    player = this.physics.add.sprite(100, 850, 'hero1');
 
-    //  Player physics properties. Give the little guy a slight bounce.
+    //  Player physics properties. Give the player a slight bounce.
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
 
@@ -129,17 +134,14 @@ function create() {
     stars.children.iterate(function (child) {
 
         //  Give each star a slightly different bounce
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+        child.setBounceY(Phaser.Math.FloatBetween(0.3, 0.6));
 
     });
 
     bombs = this.physics.add.group();
 
     //  The score
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-    // rain
-    //createRain(this);
+    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' }).setScrollFactor(0, 0);
 
     //  Collide the player and the stars with the platforms
     this.physics.add.collider(player, platforms);
@@ -151,22 +153,22 @@ function create() {
 
     this.physics.add.collider(player, bombs, hitBomb, null, this);
 
-    this.cameras.main.startFollow(player);
-    this.cameras.main.useBounds = true;
+    this.cameras.main.startFollow(player, true);
 
     function createRain(Game) {
         var particles = Game.add.particles('rain');
         var emitter = particles.createEmitter({
-            x: { min: 0, max: 1000 },
+            x: { min: 0, max: 1920 },
             y: 0,
             speed: { min: 300, max: 500 },
             angle: 90,
-            lifespan: 2000
+            lifespan: 3000
         });
         emitter.setScale(0.5);
     };
 
     if (isItRain) createRain(this);
+
 }
 
 function update() {
@@ -176,12 +178,12 @@ function update() {
 
     space = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     if (cursors.left.isDown) {
-        player.setVelocityX(-160);
+        player.setVelocityX(-250);
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown) {
-        player.setVelocityX(160);
+        player.setVelocityX(250);
 
         player.anims.play('right', true);
     }

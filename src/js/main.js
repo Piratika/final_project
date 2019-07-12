@@ -4,8 +4,8 @@ import Phaser from 'phaser';
 
 var config;
 
-const h = 768;
-const w = 1920;
+const h = window.innerHeight;
+const w = window.innerWidth;
 
 // changing canvas size after window resize
 /*

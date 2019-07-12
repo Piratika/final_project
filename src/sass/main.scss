@@ -1,13 +1,5 @@
 @import "core/_core";
-@import "blocks/_blocks";
 
-body {
-  min-width: 250px;
-  color: #8f8f8f;
-  background-image: url('/images/bg.png');
+* {
   font-size: 0;
 }
-
-canvas {
-}
-

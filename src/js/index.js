@@ -8,7 +8,7 @@ jQuery(document).ready(function () {
   var config = {
     // Enable or disable widget functionality with the following options. Some of these features require additional configuration in your Okta admin settings. Detailed information can be found here: https://github.com/okta/okta-signin-widget#okta-sign-in-widget
     // Look and feel changes:
-    logo: '//logo.clearbit.com/okta.com', // Try changing "okta.com" to other domains, like: "workday.com", "splunk.com", or "delmonte.com"
+    logo: './images/star.png', // Try changing "okta.com" to other domains, like: "workday.com", "splunk.com", or "delmonte.com"
     language: 'en',                       // Try: [fr, de, es, ja, zh-CN] Full list: https://github.com/okta/okta-signin-widget#language-and-text
     i18n: {
       //Overrides default text when using English. Override other languages by adding additional sections.
